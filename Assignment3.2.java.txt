@@ -1,0 +1,54 @@
+import java.util.*;
+
+public class FindFourClosestNumbers {
+
+    public static List<List<Integer>> findFourClosestNumbers(int[] nums, int target) {
+        List<List<Integer>> quadruplets = new ArrayList<>();
+        int[] visited = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            if (visited[i] == 1) {
+                continue;
+            }
+            for (int j = i + 1; j < nums.length; j++) {
+                if (visited[j] == 1) {
+                    continue;
+                }
+                for (int k = j + 1; k < nums.length; k++) {
+                    if (visited[k] == 1) {
+                        continue;
+                    }
+                    int sum = nums[i] + nums[j] + nums[k];
+                    int l = 0;
+                    while (l < nums.length && visited[l] == 1) {
+                        l++;
+                    }
+                    if (l < nums.length) {
+                        sum += nums[l];
+                        if (sum == target) {
+                            List<Integer> quadruplet = new ArrayList<>();
+                            quadruplet.add(nums[i]);
+                            quadruplet.add(nums[j]);
+                            quadruplet.add(nums[k]);
+                            quadruplet.add(nums[l]);
+                            quadruplets.add(quadruplet);
+                            visited[i] = 1;
+                            visited[j] = 1;
+                            visited[k] = 1;
+                            visited[l] = 1;
+                        }
+                    }
+                }
+            }
+        }
+        return quadruplets;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 0, -1, 0, -2, 2};
+        int target = 0;
+        List<List<Integer>> quadruplets = findFourClosestNumbers(nums, target);
+        for (List<Integer> quadruplet : quadruplets) {
+            System.out.println(quadruplet);
+        }
+    }
+}
